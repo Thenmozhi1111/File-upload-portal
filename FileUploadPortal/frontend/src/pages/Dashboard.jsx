@@ -80,7 +80,7 @@ const fetchFiles = async () => {
     console.log(role);
 
     const res = await axios.get(
-      `${API_URL}/${userId}/${role}`
+      `${API_URL}/files/${userId}/${role}`
     );
 
     console.log("RESPONSE:");
