@@ -5,25 +5,24 @@ const cors = require("cors");
 const multer = require("multer");
 const fs = require("fs");
 const paths = require("path");
-const storage = multer.diskStorage({
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 
-  destination: (req,file,cb)=>{
-    cb(null,"uploads/");
-  },
-
-  filename: (req,file,cb)=>{
-    cb(
-      null,
-      Date.now() +
-      "-" +
-      file.originalname
-    );
-  }
-
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
-const upload =
-  multer({ storage });
+const storage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: {
+        folder: 'file-upload-portal',
+        resource_type: 'auto'
+    }
+});
+
+const upload = multer({ storage });
 const app = express();
 
 app.use(express.json());
@@ -185,7 +184,7 @@ console.log("FOLDER ID:", folder_id);
   `INSERT INTO files (filename, filesize, filetype, folder_id,userid)
        VALUES ($1, $2, $3, $4, $5)`,
   [
-    file.filename,
+    file.path,
     file.size,
     file.mimetype,
     folder_id || null,
