@@ -40,7 +40,7 @@ app.use(
 
 
 
-// Existing route
+
 app.get("/", async (req, res) => {
     try {
         const result = await pool.query("SELECT NOW()");
@@ -52,7 +52,6 @@ app.get("/", async (req, res) => {
 });
 
 
-// Paste Step 3 HERE
 app.post("/register", async (req, res) => {
   try {
 
@@ -193,9 +192,9 @@ console.log("FOLDER ID:", folder_id);
   res.json({ message: "Uploaded successfully" });
 
    }catch (err) {
-  console.log("🔥 FULL UPLOAD ERROR:", err);
-  console.log("🔥 MESSAGE:", err.message);
-  console.log("🔥 DETAIL:", err.detail);
+  console.log("FULL UPLOAD ERROR:", err);
+  console.log("MESSAGE:", err.message);
+  console.log("DETAIL:", err.detail);
 
   return res.status(500).json({
     message: "Upload Failed",
