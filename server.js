@@ -181,14 +181,15 @@ console.log("FOLDER ID:", folder_id);
   for (const file of req.files) {
     await pool.query(
       
-  `INSERT INTO files (filename, filesize, filetype, folder_id,userid)
-       VALUES ($1, $2, $3, $4, $5)`,
+  `INSERT INTO files (filename, filesize, filetype, folder_id,userid,originalname)
+       VALUES ($1, $2, $3, $4, $5,$6)`,
   [
     file.path,
     file.size,
     file.mimetype,
     folder_id || null,
-    userId
+    userId,
+    originalname
   ]
 );
   }
