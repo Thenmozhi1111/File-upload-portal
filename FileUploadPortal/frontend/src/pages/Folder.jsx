@@ -4,6 +4,8 @@ import axios from "axios";
 import { useRef } from "react";
 import "./Folder.css";
 import "./Dashboard.css";
+import API_URL from "./config.jsx";
+
 import {
   FaEye,
   FaDownload,
@@ -79,7 +81,7 @@ async()=>{
 
   const res =
   await axios.get(
-   `http://localhost:5000/subfolders/${folderId}`
+   `${API_URL}/subfolders/${folderId}`
   );
 
   console.log("Subfolders:",res.data),
@@ -93,7 +95,7 @@ async()=>{
   const fetchFolder = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/folder/${id}`
+        `${API_URL}/folder/${id}`
       );
 
       setFolder(res.data);
@@ -115,7 +117,7 @@ async()=>{
       console.log(role)
     
       const res = await axios.get(
-        `http://localhost:5000/folder-files/${id}/${userId}/${role}`
+        `${API_URL}/folder-files/${id}/${userId}/${role}`
       );
       console.log("API RESPONSE:");
 console.log(res.data);
@@ -141,7 +143,7 @@ async () => {
 
     const res =
       await axios.get(
-        `http://localhost:5000/breadcrumb/${folderId}`
+        `${API_URL}/breadcrumb/${folderId}`
       );
 
     setBreadcrumb(
@@ -175,7 +177,7 @@ async () => {
 }
 
   try {
-    await axios.post("http://localhost:5000/upload", 
+    await axios.post(`${API_URL}/upload`, 
       formData,
 
     {onUploadProgress : (progressEvent) => {
@@ -217,7 +219,7 @@ async () => {
   const deleteFile = async (fileId) => {
     try {
       await axios.delete(
-        `http://localhost:5000/file/${fileId}`,
+        `${API_URL}/file/${fileId}`,
         { data:{
    role:localStorage.getItem("role"),
    userId:localStorage.getItem("userId")
@@ -233,7 +235,7 @@ async () => {
 
   const downloadFile = (filename) => {
     window.open(
-      `http://localhost:5000/download/${filename}`
+      `${API_URL}/download/${filename}`
     );
   };
 
@@ -292,7 +294,7 @@ const saveRename = async () => {
   try {
 
     await axios.put(
-      `http://localhost:5000/rename/${selectedFile.id}`,
+      `${API_URL}/rename/${selectedFile.id}`,
       {
         newName: newFileName
       }
@@ -327,7 +329,7 @@ const saveRenames = async () => {
   try {
 
     await axios.put(
-      `http://localhost:5000/rename/folder/${folder.id}`,
+      `${API_URL}/rename/folder/${folder.id}`,
        
  { 
   name: newFolderName
@@ -378,7 +380,7 @@ const deleteFolder = async(id)=>{
   try{
 
     await axios.delete(
-      `http://localhost:5000/folder/${id}`
+      `${API_URL}/folder/${id}`
     );
 
     navigate(`/dashboard/${userId}`);
@@ -429,7 +431,7 @@ async () => {
   try {
 
     await axios.post(
-      "http://localhost:5000/folder",
+      `${API_URL}/folder",
       {
         name: subFolderName,
         parent_id: folderId
