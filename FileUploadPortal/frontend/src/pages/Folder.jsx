@@ -696,7 +696,7 @@ navigate(
                           <tr key={file.id}>
       
                         <td>
-                          {file.filename}
+                          {file.orginalname}
                         </td>
       
                         <td>
