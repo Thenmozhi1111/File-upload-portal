@@ -431,7 +431,7 @@ async () => {
   try {
 
     await axios.post(
-      `${API_URL}/folder",
+      `${API_URL}/folder`,
       {
         name: subFolderName,
         parent_id: folderId
