@@ -774,7 +774,7 @@ if (sortBy === "date") {
 
                    <tr key={file.id}>
 
-                  <td>{file.filename}</td>
+                  <td>{file.originalname}</td>
 
   <td>{file.filetype}</td>
 
