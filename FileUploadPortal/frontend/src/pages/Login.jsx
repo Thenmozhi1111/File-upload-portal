@@ -17,12 +17,13 @@ function Login() {
   try {
 
     const res = await axios.post(
-      "https://file-upload-portal-1-4wrj.onrender.com/login",
+      `${API_URL}/login`,
       {
         email,
         password
       }
     );
+    console.log("`${API_URL}/login`")
 
 localStorage.setItem(
   "userId",
