@@ -189,7 +189,7 @@ console.log("FOLDER ID:", folder_id);
     file.mimetype,
     folder_id || null,
     userId,
-    originalname
+    file.originalname
   ]
 );
   }
