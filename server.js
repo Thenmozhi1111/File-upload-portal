@@ -28,7 +28,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cors({
-    origin: "https://file-upload-portal-one.vercel.app/",
+    origin: "https://file-upload-portal-one.vercel.app",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true
 }));
