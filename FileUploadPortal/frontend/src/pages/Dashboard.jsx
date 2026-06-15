@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useDropzone } from "react-dropzone";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import API_URL from "./config.jsx";
 import {
   FaEye,
   FaDownload,
@@ -79,7 +80,7 @@ const fetchFiles = async () => {
     console.log(role);
 
     const res = await axios.get(
-      `http://localhost:5000/files/${userId}/${role}`
+      `${API_URL}/${userId}/${role}`
     );
 
     console.log("RESPONSE:");
@@ -175,7 +176,7 @@ const handleUpload = async () => {
 );
 
     await axios.post(
-      "http://localhost:5000/upload",
+      `${API_URL}/upload`,
       formData,
       {
         onUploadProgress: (progressEvent) => {
@@ -233,7 +234,7 @@ setTimeout(() => {
     try {
 
       await axios.delete(
-        `http://localhost:5000/file/${id}`,
+        `${API_URL}/file/${id}`,
         {
  data:{
    role:localStorage.getItem("role"),
@@ -255,7 +256,7 @@ setTimeout(() => {
   const downloadFile = (filename) => {
 
     window.open(
-      `http://localhost:5000/download/${filename}`
+      `${API_URL}/download/${filename}`
     );
 
   };
@@ -294,7 +295,7 @@ setTimeout(() => {
 
     const res =
       await axios.get(
-        "http://localhost:5000/folders"
+        `${API_URL}/folders`
       );
 
     setFolders(res.data);
@@ -334,7 +335,7 @@ const createFolder = async () => {
   try {
 
     await axios.post(
-      "http://localhost:5000/folder",
+      `${API_URL}/folder`,
       {
         name: folderName,
         role:localStorage.getItem("role")
@@ -363,7 +364,7 @@ const searchFiles = async () => {
   try {
 
     const res = await axios.get(
-`http://localhost:5000/search/${searchTerm}/${localStorage.getItem("userId")}/${localStorage.getItem("role")}`
+`${API_URL}/search/${searchTerm}/${localStorage.getItem("userId")}/${localStorage.getItem("role")}`
 );
 
     setSearchResults(res.data);
@@ -416,7 +417,7 @@ const saveRename = async () => {
   try {
 
     await axios.put(
-      `http://localhost:5000/rename/${selectedFile.id}`,
+      `${API_URL}/rename/${selectedFile.id}`,
       {
         newName: newFileName,
          role: localStorage.getItem("role"),
@@ -448,7 +449,7 @@ const moveFile = async(
 )=>{
 
   await axios.put(
-    `http://localhost:5000/move-file/${fileId}`,
+    `${API_URL}/move-file/${fileId}`,
     {
       folderId
     }
