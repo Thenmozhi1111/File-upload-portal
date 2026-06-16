@@ -52,7 +52,7 @@ const [newFileName, setNewFileName] =
   setSelectedFile(file);
 
   setNewFileName(
-    file.filename.split(".")[0]
+    file.originalname
   );
 
   setShowRename(true);
@@ -253,13 +253,13 @@ setTimeout(() => {
   };
 
   // Download File
-  const downloadFile = (filename) => {
-
-    window.open(
-      filename
-    );
-
-  };
+ const downloadFile = (filename) => {
+    const link = document.createElement('a');
+    link.href = filename;
+    link.target = '_blank';
+    link.download = '';
+    link.click();
+};
 
   // Dynamic Statistics
   const totalFiles = files.length;
@@ -938,10 +938,10 @@ if (sortBy === "date") {
               "application/pdf" ? (
 
             <iframe
-              title="pdf"
-              src={previewFileData.filename}
-              className="preview-pdf"
-            />
+  title="pdf"
+  src={`https://docs.google.com/viewer?url=${encodeURIComponent(previewFileData.filename)}&embedded=true`}
+  className="preview-pdf"
+/>
 
           ) : (
 
