@@ -253,14 +253,14 @@ setTimeout(() => {
   };
 
   // Download File
- const downloadFile = (filename) => {
+const downloadFile = async (filename, originalname) => {
     const link = document.createElement('a');
     link.href = filename;
-    link.target = '_blank';
-    link.download = '';
+    link.download = originalname || 'download';
+    document.body.appendChild(link);
     link.click();
+    document.body.removeChild(link);
 };
-
   // Dynamic Statistics
   const totalFiles = files.length;
   const totalfolders = folders.length;
@@ -803,7 +803,7 @@ if (sortBy === "date") {
 
   <FaDownload
     className="action-icon download-icon"
-    onClick={() => downloadFile(file.filename)}
+    onClick={() => downloadFile(file.filename,file.originalname)}
     title="Download"
   />
 
