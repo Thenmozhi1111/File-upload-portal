@@ -253,13 +253,14 @@ setTimeout(() => {
   };
 
   // Download File
-const downloadFile = async (filename, originalname) => {
-    const link = document.createElement('a');
-    link.href = filename;
-    link.download = originalname || 'download';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+const downloadFile = (filename, originalname) => {
+    const downloadUrl = filename.replace(
+        '/upload/',
+        '/upload/fl_attachment/'
+    );
+    window.open(downloadUrl);
+};
+  
 };
   // Dynamic Statistics
   const totalFiles = files.length;
@@ -929,34 +930,23 @@ if (sortBy === "date") {
           ✖
         </button>
 
-        {
-          previewFileData.filetype?.startsWith(
-            "image"
-          ) ? (
-
-            <img
-              src={previewFileData.filename}
-              alt="preview"
-              className="preview-image"
-            />
-
-          ) : previewFileData.filetype ===
-              "application/pdf" ? (
-
-            <iframe
-  title="pdf"
-  src={`https://docs.google.com/viewer?url=${encodeURIComponent(previewFileData.filename)}&embedded=true`}
-  className="preview-pdf"
-/>
-
-          ) : (
-
-            <h3>
-              Preview Not Available
-            </h3>
-
-          )
-        }
+{
+  previewFileData.filetype?.startsWith("image") ? (
+    <img
+      src={previewFileData.filename}
+      alt="preview"
+      className="preview-image"
+    />
+  ) : previewFileData.filetype === "application/pdf" ? (
+    <iframe
+      title="pdf"
+      src={`https://docs.google.com/viewer?url=${encodeURIComponent(previewFileData.filename)}&embedded=true`}
+      className="preview-pdf"
+    />
+  ) : (
+    <h3>Preview Not Available</h3>
+  )
+}
 
       </div>
 
