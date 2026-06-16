@@ -418,7 +418,7 @@ app.get(
           ON files.folder_id = folders.id
           JOIN users
           ON files.userid = users.id
-          WHERE files.filename ILIKE $1
+          WHERE files.originalname ILIKE $1
           `,
           [`%${term}%`]
         );
@@ -433,7 +433,7 @@ app.get(
           FROM files
           LEFT JOIN folders
           ON files.folder_id = folders.id
-          WHERE files.filename ILIKE $1
+          WHERE files.originalname ILIKE $1
           AND files.userid = $2
           `,
           [`%${term}%`, userId]
@@ -504,28 +504,14 @@ console.log(result.rows);
 
 
 app.put("/rename/:id", async (req, res) => {
-
   try {
-
-    const { userId,role,id } = req.params;
-    const { newName } = req.body;
+    const { id } = req.params;
+    const { newName, userId, role } = req.body;
 
     const fileResult = await pool.query(
       "SELECT * FROM files WHERE id = $1",
       [id]
     );
-    const owner =
-fileResult.rows[0].userId;
-
-if(
- role !== "admin" &&
- owner != userId
-){
- return res.status(403).json({
-  message:"Access Denied"
- });
-}
-    
 
     if (fileResult.rows.length === 0) {
       return res.status(404).json({
@@ -534,37 +520,26 @@ if(
     }
 
     const file = fileResult.rows[0];
+    const owner = file.userid;
 
-    const oldPath = paths.join(
-      __dirname,
-      "uploads",
-      file.filename
-    );
+    if (role !== "admin" && owner != userId) {
+      return res.status(403).json({
+        message: "Access Denied"
+      });
+    }
 
-    const extension = paths.extname(
-      file.filename
-    );
+    // Get extension from originalname
+    const extension = file.originalname
+      ? file.originalname.split('.').pop()
+      : '';
 
-    const newFileName =
-      newName + extension;
+    const newFileName = extension
+      ? `${newName}.${extension}`
+      : newName;
 
-    const newPath = paths.join(
-      __dirname,
-      "uploads",
-      newFileName
-    );
-
-    fs.renameSync(
-      oldPath,
-      newPath
-    );
-
+    // Just update originalname in database
     await pool.query(
-      `
-      UPDATE files
-      SET filename = $1
-      WHERE id = $2
-      `,
+      `UPDATE files SET originalname = $1 WHERE id = $2`,
       [newFileName, id]
     );
 
@@ -573,15 +548,11 @@ if(
     });
 
   } catch (err) {
-  console.error("Rename Error:", err);
-  
-  res.status(500).json({
-    message: err.message
-  });
-
-
+    console.error("Rename Error:", err);
+    res.status(500).json({
+      message: err.message
+    });
   }
-
 });
 
 app.delete(
