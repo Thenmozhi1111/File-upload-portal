@@ -432,12 +432,18 @@ const saveRename = async () => {
     setMessage(
       "✅ File renamed"
     );
+    setTimeout(() => {
+    setMessage("");
+  }, 2000);
 
   } catch (err) {
 
     setMessage(
       "❌ Rename failed"
     );
+    setTimeout(() => {
+    setMessage("");
+  }, 2000);
 
   }
 
