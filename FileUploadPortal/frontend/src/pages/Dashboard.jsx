@@ -940,8 +940,10 @@ if (sortBy === "date") {
   ) : previewFileData.filetype === "application/pdf" ? (
     <iframe
       title="pdf"
-      src={`https://docs.google.com/viewer?url=${encodeURIComponent(previewFileData.filename)}&embedded=true`}
+      src={`https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(previewFileData.filename)}`}
       className="preview-pdf"
+      width="100%"
+      height="600px"
     />
   ) : (
     <h3>Preview Not Available</h3>
