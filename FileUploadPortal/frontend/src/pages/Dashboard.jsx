@@ -256,7 +256,7 @@ setTimeout(() => {
   const downloadFile = (filename) => {
 
     window.open(
-      `${API_URL}/download/${filename}`
+      filename
     );
 
   };
@@ -883,7 +883,7 @@ if (sortBy === "date") {
           <div key={file.id}>
 
             <p>
-              {file.filename}
+              {file.originalname}
             </p>
 
             <small>
@@ -929,7 +929,7 @@ if (sortBy === "date") {
           ) ? (
 
             <img
-              src={`http://localhost:5000/uploads/${previewFileData.filename}`}
+              src={previewFileData.filename}
               alt="preview"
               className="preview-image"
             />
@@ -939,7 +939,7 @@ if (sortBy === "date") {
 
             <iframe
               title="pdf"
-              src={`http://localhost:5000/uploads/${previewFileData.filename}`}
+              src={previewFileData.filename}
               className="preview-pdf"
             />
 
